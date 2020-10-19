@@ -5,8 +5,9 @@ from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPooling2D
 from tensorflow.keras.losses import categorical_crossentropy
 # import tensorflow specifics
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.regularizers import l1
+from matplotlib import pyplot as plt
 
 
 #
@@ -29,9 +30,8 @@ def plot_curve(epochs, hist, list_of_metrics):
 
 
 
-def create_model(my_learning_rate, input_shape):
+def create_model(my_learning_rate, input_shape, output_shape):
     """Create and compile a deep neural net."""
-
     # Create Sequential model
     model = tf.keras.models.Sequential()
     model = Sequential()
@@ -45,14 +45,13 @@ def create_model(my_learning_rate, input_shape):
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(tf.keras.layers.Dropout(rate=0.2))
     model.add(Flatten())
-    model.add(Dense(120, activation='relu', activity_regularizer=l1(0.001), kernel_initializer='he_uniform'))
-    model.add(tf.keras.layers.Dropout(rate=0.1))
-    model.add(Dense(7, activation='softmax'))
-
+    #model.add(Dense(120, activation='relu', kernel_initializer='he_uniform'))
+    #model.add(Dense(60, activation='relu', kernel_initializer='he_uniform'))
+    model.add(Dense(output_shape, activation='softmax'))
     # Construct the layers into a model that TensorFlow can execute.
     # Notice that the loss function for multi-class classification
     # is different than the loss function for binary classification.
-    model.compile(optimizer=Adam(lr=my_learning_rate),
+    model.compile(optimizer=RMSprop(lr=my_learning_rate),
                   loss=categorical_crossentropy,
                   metrics=['accuracy'])
 

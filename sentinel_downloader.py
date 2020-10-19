@@ -158,7 +158,7 @@ def main_function():
             image_list = request_batch(item, type)
             print('images (numpy arrays) saved for '+str(item)+' '+str(type))
 
-    return image_list
+    print('ALL IMAGE DATA HAS BEEN DOWNLOADED! YAY!!!')
 
 if __name__ == '__main__':
     main_function()
